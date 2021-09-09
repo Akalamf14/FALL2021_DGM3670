@@ -1,0 +1,71 @@
+string $snowmanPieces[] ;
+
+string $temp[] ;
+
+
+$temp = `polySphere -r 2 -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -ch 1`;
+stringArrayInsertAtIndex(0, $snowmanPieces, $temp[0]);
+
+$temp = `polySphere -r 1.5 -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -ch 1`;
+move -relative 0 2.3 0 $temp[0];
+stringArrayInsertAtIndex(0, $snowmanPieces, $temp[0]);
+
+$temp = `polySphere -r 1 -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -ch 1`;
+move -relative 0 4 0 $temp[0];
+stringArrayInsertAtIndex(0, $snowmanPieces, $temp[0]);
+
+$temp = `polyCone -r .1 -h 1.5 -sx 20 -sy 15 -sz 0 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1`;
+rotate -relative -objectSpace -forceOrderXYZ 0 0 -90 $temp[0];
+move -relative 1.5 4 0 $temp[0];
+move -r 0 0.015 0 ($temp[0] + ".f[80:99]");
+move -r 0 -0.015 0 ($temp[0] + ".f[160:179]");
+stringArrayInsertAtIndex(0, $snowmanPieces, $temp[0]);
+
+$temp = `polySphere -r .1 -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -ch 1`;
+move -r 0.9 4.2 -.3 $temp[0];
+stringArrayInsertAtIndex(0, $snowmanPieces, $temp[0]);
+
+$temp = `polySphere -r .1 -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -ch 1`;
+move -r 0.9 4.2 .3 $temp[0];
+stringArrayInsertAtIndex(0, $snowmanPieces, $temp[0]);
+
+$temp = `polyCylinder -r 1.4 -h .2 -sx 20 -sy 1 -sz 3 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1`;
+move -r 0 4.6 0 $temp[0];
+
+string $tNode[];
+
+$tNode = `polyExtrudeFacet -constructionHistory 1 -keepFacesTogether 1 -pvx -1.192092896e-07 -pvy 4.700000001 -pvz -1.490116119e-07 -divisions 1 -twist 0 -taper 1 -off 0 -thickness 0 -smoothingAngle 30 ($temp[0] + ".f[80:99]")`;
+setAttr ($tNode[0] + ".localTranslate") -type double3 0 0 1.15 ;
+stringArrayInsertAtIndex(0, $snowmanPieces, $temp[0]);
+
+$temp = `polyCylinder -r .06 -h 2 -sx 20 -sy 1 -sz 3 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1`;
+move -r 0 3.1 2 $temp[0];
+rotate -relative -objectSpace -forceOrderXYZ 45 0 0 $temp[0];
+stringArrayInsertAtIndex(0, $snowmanPieces, $temp[0]);
+
+$temp = `polyCylinder -r .06 -h 2 -sx 20 -sy 1 -sz 3 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1`;
+move -r 0 3.1 -2 $temp[0];
+rotate -relative -objectSpace -forceOrderXYZ -45 0 0 $temp[0];
+stringArrayInsertAtIndex(0, $snowmanPieces, $temp[0]);
+
+polyUnite -ch 1 -centerPivot $snowmanPieces;
+makeIdentity -apply true -t 1 -r 1 -s 1 -n 0 -pn 1;
+
+string $groupNode;
+$groupNode = `group -empty -w -name Geometry`;
+select  polySurface1 ;
+select -add Geometry ;
+parent ;
+
+select -r pSphere1 pSphere2 pSphere3 pCone1 pSphere4 pSphere5 pSphere6 pCone2 pSphere7 pSphere8 pSphere9 pCone3 pSphere10 pSphere11 pSphere12 pCone4 pSphere13 pSphere14 pSphere15 pCone5 pSphere16 pSphere17 pCylinder1 pSphere18 pSphere19 pSphere20 pCone6 pSphere21 pSphere22 pCylinder2 pCylinder3 pCylinder4 pSphere23 pSphere24 pSphere25 pCone7 pSphere26 pSphere27 pCylinder5 pCylinder6 pCylinder7 pSphere28 pSphere29 pSphere30 pCone8 pSphere31 pSphere32 pCylinder8 pCylinder9 pCylinder10 ;
+doGroup 0 1 1;
+select $snowmanPieces;
+select -add group1;
+parent;
+
+select polySurface1;
+delete -constructionHistory;
+
+
+
+
