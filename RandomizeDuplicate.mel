@@ -1,0 +1,14 @@
+global proc float Randomize(int $amount, float $minX, float $maxX, float $minY, float $maxY, float $minZ, float $maxZ)
+{
+   string $objects[] = `ls -sl`;
+   for($i=0; $i<size($ojbects); $i++)
+   {
+       for($j=0; $j<$amount; $i++)
+       {
+           string $dup = `duplicate $ojbects[$i]`;
+           float $x = `rand $minX $maxX`;
+           float $y = `rand $minY $maxY`;
+           float $z = `rand $minZ $maxZ`;
+       }
+   }
+}
