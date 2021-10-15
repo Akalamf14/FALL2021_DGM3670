@@ -1,14 +1,23 @@
-global proc float Randomize(int $amount, float $minX, float $maxX, float $minY, float $maxY, float $minZ, float $maxZ)
+select -all;
+
+global proc Randomize(int $amount, float $minX, float $maxX, float $minY, float $maxY, float $minZ, float $maxZ)
 {
    string $objects[] = `ls -sl`;
-   for($i=0; $i<size($ojbects); $i++)
+   
+   for($i=0; $i<size($objects); $i++)
    {
-       for($j=0; $j<$amount; $i++)
+       for($j=0; $j<$amount; $j++)
        {
-           string $dup = `duplicate $ojbects[$i]`;
+           string $dup [] = `duplicate $objects[$i]`;
+           
            float $x = `rand $minX $maxX`;
            float $y = `rand $minY $maxY`;
            float $z = `rand $minZ $maxZ`;
+           
+           move $x $y $z $dup[0];
+           
        }
    }
 }
+
+Randomize(3, -20, 20, 0, 0, -20, 20);
